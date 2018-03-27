@@ -12,9 +12,9 @@ class Data(db.Model):
     email_ = db.Column(db.String(120), unique = True)
     height_ = db.Column(db.Integer)
 
-    def __init__(self, email_, height_):
+    def __init__(self, email_,height_):
         self.email_ = email_
-        self.height = height_
+        self.height_ = height_
 
 @app.route('/')
 def hello_world():
@@ -25,9 +25,13 @@ def success():
     if request.method == 'POST':
         email = request.values.get("email")
         height = request.values.get("height")
-        l = [email, height]
-        print(l)
-        return render_template("success.html")
+        if db.session.query(Data).filter(Data.email_ == email).count() == 0:
+            data = Data(email, height)
+            db.session.add(data)
+            db.session.commit()
+            return render_template("success.html")
+    return render_template("index.html",
+                           text="seems like we have got that email already")
 
 if __name__ == '__main__':
     app.run()

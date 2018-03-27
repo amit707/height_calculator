@@ -16,6 +16,9 @@
 		
 			<h1>Collecting heights</h1>
 			<h4>Please fill the entries to get population statistics on height</h4>
+            <div class="message">
+                {{ text | safe }}
+            </div>
 			<form action = "{{ url_for("success") }}" method = "POST">
 			<input name = "email" id = "email" type = "email" placeholder="Enter your email address" required><br>
 			<input name = "height" id = "height" type = "number" min = "50" max = "300" placeholder="Enter your height in cm" required><br>
